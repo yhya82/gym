@@ -11,7 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('members',function(Blueprint $table) {
+            $table->id();
+            $table->foreignId('plan_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('phone');
+            $table->string('gender');
+            $table->decimal('amount');
+            $table->string('payment_method');
+            $table->string('join_date');
+            $table->string('status')->default('pending');
+        });
+        
     }
 
     /**
@@ -19,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('members');
     }
 };
