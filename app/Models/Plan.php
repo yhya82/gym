@@ -13,11 +13,11 @@ class Plan extends Model
     ];
 
     //relationship
-    public function payment(){
+    public function payments(){
         return $this->hasMany(Payment::class);
     }
 
-    public function member(){
-        return $this->belongsTo(Member::class);
+    public function members(){
+        return $this->hasMany(Member::class);
     }
 }
