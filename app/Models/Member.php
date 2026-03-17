@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     Protected $fillable = [
+            'plan_id',
             'name',
             'phone',
             'gender',
@@ -16,10 +17,10 @@ class Member extends Model
 
         //relationship
         public function payment(){
-            return $this->hasMany(Payment::class);
+            return $this->hasOne(Payment::class);
         }
 
         public function plan(){
-            return $this->belongTo(Plan::class);
+            return $this->belongsTo(Plan::class);
         }
 }

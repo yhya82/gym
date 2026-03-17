@@ -5,30 +5,41 @@ use App\Models\Plan;
 use App\Models\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\PaymentService;
 
 class MemberApiController extends Controller
 {
+
+    protected $paymentservice;
+
+    public function __construct(PaymentService $paymentservice){
+        $this->paymentservice = $paymentservice;
+    }
+
     public function index(Request $request){
         
-        $plans = Plan::all();
+      
         $members = Member::query()
             //search for name and phone
                 ->when($request->search , function($q) use ($request) {
-                $q->where('name','like','%'.$request->search .'%')
-                    ->orWhere('phone','like', '%'.$request->search .'%');
+                    $q->where(function($query) use ($request){
+                        $query->where('name','like','%'.$request->search .'%')
+                                ->orWhere('phone','like', '%'.$request->search .'%');
+
+                        });
                     })
                 //filtering for plan
                 ->when($request->plan_id, function($q) use($request){
                    $q->where('plan_id', $request->plan_id);
 
                    })
-                   ->with('plan')
+                   ->with('payment.plan')
                 ->get();
                     
 
         return response()->json([
             'data' => $members,
-            'plans' =>$plans
+            
         ]);
     
     }
@@ -45,11 +56,22 @@ class MemberApiController extends Controller
 
             ]);
 
-            $member= Member::create($validated);
-            //data should be pass to paymnet service
-            return response()->json([
-        'data' => $member
-    ], 201);
+            try{
+
+            $result = $this->paymentservice->createMemberPayment($validated);
+
+             return response()->json([
+
+             'message' => 'Member created successfully',
+                'data' => $result['member']
+            ], 201);
+
+            }catch(\Exception $e){
+                \Log::error('Payment service failed: ' . $e->getMessage());
+                return response()->json([
+                    'message'=>$e->getMessage()
+                ]);
+            }
 
     }
 
@@ -66,16 +88,34 @@ class MemberApiController extends Controller
 
             ]);
 
-            $member->update($validated);
+            //update member table
+            $member->update([
+                
+                    'name'=>$validated['name'],
+                    'phone'=>$validated['phone'],
+                    'join_date'=>$validated['join_date'],
+                     'plan_id'=>$validated['plan_id'],
+                    ]);
+
+                    //update the payment table through the relationship with members table
+                    $member->payment()->update([
+                        'member_id'=>$member->id,
+                        'amount'=>$validated['amount'],
+                        'payment_method'=>$validated['payment_method']
+                    ]);
+
 
             return response()->json([
-                'data'=>$member
+                'data'=>$member->load('plan','payment')
             ]);
     }
 
     public function show(Member $member){
+            //return payments ad plan if not the edit form would show only the member
 
+            $member->load('plan','payment');
         return response()->json([
+
             'data'=>$member
         ]);
     }

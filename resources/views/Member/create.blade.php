@@ -16,9 +16,10 @@
         <input type="text" name="gender" required>
         <label >Join  date</label>
         <input type="date" name="join_date" required>
-        @foreach($plans as $plan)
-        <select name="plan_id" >
+        
+        <select name="plan_id" required >
             <option value="">Select Plan</option>
+            @foreach($plans as $plan)
             <option value="{{$plan->id}}">{{$plan->name}}</option>
             @endforeach
         </select>
@@ -32,7 +33,7 @@
             <option value="aps">Aps</option>
         </select>
 
-        <button type="submit" > add Memeber</button>
+        <button type="submit"> add Memeber</button>
 
     </form>
 
@@ -43,13 +44,14 @@
             form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const form= e.target;
-            const data = Object.fromEntries(new FormData(form));
+             const token = document.querySelector('input[name="_token"]').value;
+            const data = Object.fromEntries(new FormData(e.target));
 
             fetch(`/api/members`,{
              method:'POST',
-             headers:{'Accept':'Application/json',
-                        'content-type': 'Application/json'
+             headers:{'Accept':'application/json',
+                        'Content-type': 'application/json',
+                        'X-CSRF-TOKEN':token
              },
              
              body:JSON.stringify(data),
@@ -58,7 +60,10 @@
             .then(res => res.json())
             .then(res =>{
                 console.log(res);
-
+                alert('Member Created Successfully');
+                form.reset(); //reset the form after submission
+                form.querySelector('input[name="name"]').focus();
+                loadmembers();
             })
             .catch(err => console.log(err));
         })

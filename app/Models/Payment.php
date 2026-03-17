@@ -8,7 +8,7 @@ class Payment extends Model
 {   Protected $fillable =[
     'member_id',
     'plan_id',
-    'user_id',
+    //'user_id',
     'amount',
     'start_date',
     'expiry_date',

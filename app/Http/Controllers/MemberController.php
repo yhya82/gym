@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Plan;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -45,7 +46,8 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
-        return view ('Member.edit',compact('member'));
+        $plans = Plan::all();
+        return view ('Member.edit',compact('member','plans'));
     }
 
     /**
