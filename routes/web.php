@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::resource(('plans'), PlanController::class);
     Route::resource(('users'), UserController::class);
     Route::resource(('members'),MemberController::class);
-
+    Route::get('/members/{member}/renew',[MemberController::class, 'renew']);
 });
 
 require __DIR__.'/auth.php';

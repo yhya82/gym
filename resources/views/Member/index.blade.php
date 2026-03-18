@@ -74,6 +74,7 @@
                             <td>${member.status}</td>
                             <td>
                                 <a href="/members/${member.id}/edit">Edit</a>
+                                <a href="/members/${member.id}/renew">Renew</a>
                                 <button onclick="deleteMember(${member.id})">Delete</button>
                                 </td>
 

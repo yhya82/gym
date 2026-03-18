@@ -50,6 +50,13 @@ class MemberController extends Controller
         return view ('Member.edit',compact('member','plans'));
     }
 
+        // function to load the renew blade
+    public function renew(Member $member)
+    {
+        $plans = Plan::all();
+        return view ('Member.renew',compact('member','plans'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
