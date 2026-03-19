@@ -82,6 +82,7 @@
 
             fetch(`/api/members/${memberId}`,{
                 method:'PUT',
+                credentials:'include',
                 headers:{
                     'Content-type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value

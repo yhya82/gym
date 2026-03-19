@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\DashboardApiController;
 
 use Illuminate\Support\Facades\Route;
 
+Route::middleware('auth:sanctum')->group(function (){ 
 
 Route::apiResource('members',MemberApiController::class);
 Route::get('dashboard',[DashboardApiController::class, 'index']);
+
+});

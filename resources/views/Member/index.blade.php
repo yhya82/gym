@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <title>Document</title>
 </head>
 <body>
@@ -45,7 +46,13 @@
             const search = searchInput.value;
             const plan =planSelect.value;
 
-            fetch(`/api/members?search=${search}&plan_id=${plan}`)
+            fetch(`/api/members?search=${search}&plan_id=${plan}`,{
+                method:'GET',
+                credentials:'include',
+                headers:{
+                       'Accept':'application/json' 
+                }
+            })
             .then(res => res.json())
             .then(response =>{
                     const members = response.data;
@@ -53,7 +60,7 @@
                     const tbody = document.getElementById('tbody');
                     tbody.innerHTML='';
 
-                        if(members.length === 0){
+                        if(!members || members.length === 0){
                             tbody.innerHTML='<tr><td>No members found</td></tr>';
                             return;
                         }
@@ -95,7 +102,10 @@
 
         fetch(`/api/members/${id}`,{
             method:'DELETE',
-            headers:{'Accept':'Application/json',}
+            credentials:'include',
+            headers:{'Accept':'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
         })
         .then(res => res.json())
         .then(res => {

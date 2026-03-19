@@ -82,6 +82,7 @@
 
             fetch(`/api/members`,{
                 method:'POST',
+                credentials:'include',
                 headers:{
                     'Content-type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
