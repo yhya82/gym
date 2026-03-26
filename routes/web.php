@@ -10,20 +10,22 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource(('plans'), PlanController::class);
-    Route::resource(('users'), UserController::class);
+    
     Route::resource(('members'),MemberController::class);
     Route::get('/members/{member}/renew',[MemberController::class, 'renew']); // for the renew form
 
+    
+});
+
+Route::middleware('auth', 'role:owner')->group( function () {
+Route::resource(('plans'), PlanController::class);
+    Route::resource(('users'), UserController::class);
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
 });
 

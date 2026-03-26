@@ -27,6 +27,7 @@ class ExpiredMembersCommand extends Command
      */
     public function handle()
     {
+        
         $members = Member::where('status','active')
                             ->whereDate('end_date','<=',now())
                             ->get();
@@ -42,7 +43,7 @@ class ExpiredMembersCommand extends Command
                                 \Log::info('Expired member:' . $member->name);
                                 
                             }
-
+    
                             $this->info('Expired Member updated Succeffully.');
     }
 }

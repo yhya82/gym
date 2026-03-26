@@ -37,8 +37,9 @@ class UserController extends Controller
             'phone'=> 'required',
         ]);
 
-        User::create($request->all());
-
+        
+        $user = User::create($request->all());
+        Auth::login($user);
         return redirect()->route('users.index')->with('success','User added');
     }
 

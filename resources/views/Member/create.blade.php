@@ -8,41 +8,64 @@
     @vite('resources/js/app.js')
 </head>
 <body>
-     <a href="{{route('members.index')}}">view members</a>
-    <form id="form-data">
+    @extends('layouts.app')
+    @section('content')
+    <div class="flex flex-col mt-10 px-4">
+        <p class="text-4xl lg:text-6xl">Create Member</p>
+     <a href="{{route('members.index')}}" class="text-2xl lg:text-3xl text-blue-500">view members</a>
+     </div>
+    <form id="form-data" class="px-4">
         @csrf
       
+        <div class="flex flex-col mt-6 lg:mt-8">
+        <label class="text-3xl lg:text-4xl">Name</label>
+        <input type="text" name="name" placeholder="Enter name" class="placeholder:text-2xl lg:placeholder:text-3xl w-1/2 mt-2 lg:mt-4 lg:h-16" required>
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+        <label class="text-3xl lg:text-4xl" >Phone</label>
+        <input type="text" name="phone" placeholder="Enter phone" class="placeholder:text-2xl lg:placeholder:text-3xl w-1/2 mt-2 lg:mt-4 lg:h-16"required>
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+            <label class="text-3xl lg:text-4xl">Gender</label>
+        <select name="gender" required class="w-1/2">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
 
-        <label>Name</label>
-        <input type="text" name="name" required>
-        <label >Phone</label>
-        <input type="text" name="phone" required>
-        <label >Gender</label>
-        <input type="text" name="gender" required>
-        <label >Join  date</label>
-        <input type="date" name="join_date" required>
-        
-        <select name="plan_id" required >
+        </select>
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+        <label class="text-3xl lg:text-4xl" >Join  date</label>
+        <input type="date" name="join_date" class="w-1/2 lg:h-16" required>
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+        <label class="text-3xl lg:text-4xl" >Plan</label>
+        <select name="plan_id" required class="w-1/2" >
             <option value="">Select Plan</option>
             @foreach($plans as $plan)
             <option value="{{$plan->id}}">{{$plan->name}}</option>
             @endforeach
         </select>
-        <label >Amount</label>
-        <input type="text" name="amount" required>
-        <label >Payment Method</label>
-        <select name="payment_method" >
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+        <label class="text-3xl lg:text-4xl">Amount</label>
+        <input type="text" name="amount" placeholder="Enter Amount" class="placeholder:text-2xl lg:placeholder:text-3xl w-1/2 mt-2 lg:mt-4 lg:h-16" required>
+        </div>
+        <div class="flex flex-col mt-4 lg:mt-6">
+        <label class="text-3xl lg:text-4xl" >Payment Method</label>
+        <select name="payment_method" required class="w-1/2">
             <option value="">Select Payment Method</option>
             <option value="cash">Cash</option>
             <option value="wave">Wave</option>
             <option value="aps">Aps</option>
         </select>
-
-        <button type="submit"> add Memeber</button>
-
+        </div>
+        <div class="mt-4 lg:mt-6">
+        <button type="submit" class="bg-blue-900 text-white text-2xl lg:text-4xl font-bold p-2 lg:p-4 rounded-2xl w-1/4 hover:bg-blue-500"> add Memeber</button>
+        </div>
     </form>
+@endsection
 
-
+@section('scripts')
     <script>
 
         const form = document.getElementById('form-data');
@@ -74,5 +97,5 @@
             .catch(err => console.log(err));
         })
     </script>
-</body>
-</html>
+
+@endsection

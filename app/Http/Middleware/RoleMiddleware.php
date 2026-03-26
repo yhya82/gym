@@ -16,10 +16,19 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $roles): Response
     {
         if(!auth()->check()){
+            if($request->expectsJson()){
             return response()->json(['message'=>'Unauthenticated'],401);
+            }
+            return redirect()->route('login');
         }
+        // Convert comma-separated string to array
+        $roles = is_array($roles) ? $roles : explode('|', $roles);
+
         if(!in_array(auth()->user()->role,$roles)){
+            if($request->expectsJson()){
             return response()->json(['message'=>'Forbidden'],403);
+            }
+            return abort(403);
         }
         return $next($request);
     }
