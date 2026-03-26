@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{csrf_token()}}">
     <title>Document</title>
+    @vite('resources/js/app.js')
+
 </head>
 <body>
     <h2>Members List</h2>
@@ -28,9 +30,13 @@
                 <th>Phone</th>
                 <th>Gender</th>
                 <th>Join Date</th>
-                <th>Plan</th>
+                <th>Plan(Days)</th>
+                <th>Plan Price</th>
                 <th>Amount</th>
                 <th>Payment Method</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>User</th>
                 <th>Status</th>
                 <th>Action</th>
              </tr>
@@ -76,8 +82,13 @@
                             <td>${member.gender}</td>
                             <td>${member.join_date}</td>
                             <td>${member.payment && member.payment.plan? member.payment.plan.name : ''}</td>
+                             <td>${member.payment && member.payment.plan? member.payment.plan.price : ''}</td>
                             <td>${member.payment? member.payment.amount: '' }</td>
                             <td>${member.payment ? member.payment.payment_method: ''}</td>
+                            <td>${member.payment ? member.payment.start_date: ''}</td>
+                            <td>${member.payment ? member.payment.expiry_date: ''}</td>
+                            <td>${member.payment && member.payment.user ? member.payment.user.name : ''}</td>
+
                             <td>${member.status}</td>
                             <td>
                                 <a href="/members/${member.id}/edit">Edit</a>

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\Models\Member;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Command;
+use App\Events\MemberStatusChanged;
 
 class ExpiredMembersCommand extends Command
 {
@@ -19,7 +20,7 @@ class ExpiredMembersCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Epire members whose end date have passed';
+    protected $description = 'Expire members whose end date have passed';
 
     /**
      * Execute the console command.
@@ -33,6 +34,10 @@ class ExpiredMembersCommand extends Command
                             foreach($members as $member){
                                 $member->status = 'expired';
                                 $member->save();
+
+                                //fire event
+
+                                    event(new MemberStatusChanged($member));
 
                                 \Log::info('Expired member:' . $member->name);
                                 

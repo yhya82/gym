@@ -16,8 +16,8 @@ class DashboardApiController extends Controller
                         Carbon::now()->endOfMonth()
                          ])->sum('amount');
             $totalmembers = Member::count();
-            $activemembers = Member::where('status','active');
-            $expiredmembers = Member::where('status','expired');
+            $activemembers = Member::where('status','active')->count();
+            $expiredmembers = Member::where('status','expired')->count();
 
             return response()->json([
                 'total_revenue' =>$totalrevenue,

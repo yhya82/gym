@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{csrf_token()}}">
     <title>Document</title>
+    @vite('resources/js/app.js')
 </head>
 <body>
+     <a href="{{route('members.index')}}">view members</a>
     <form id="form-data">
         @csrf
+      
+
         <label>Name</label>
         <input type="text" name="name" required>
         <label >Phone</label>
@@ -53,7 +57,7 @@
              credentials:'include',
              headers:{'Accept':'application/json',
                         'Content-type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
              },
              
              body:JSON.stringify(data),

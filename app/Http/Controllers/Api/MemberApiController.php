@@ -33,7 +33,7 @@ class MemberApiController extends Controller
                    $q->where('plan_id', $request->plan_id);
 
                    })
-                   ->with('payment.plan')
+                   ->with('payment.plan','payment.user')
                 ->get();
                     
 
@@ -45,19 +45,21 @@ class MemberApiController extends Controller
     }
 
     public function store(Request $request){
+        
             $validated = $request->validate([
                 'name'=> 'required|string',
                 'phone' => 'required|string',
                 'gender' => 'required|string',
                 'join_date'=>'required|date',
                 'plan_id' => 'required|exists:plans,id',
+                
                 'amount' => 'required|numeric',
                 'payment_method'=> 'required|string',
 
             ]);
-
+                \Log::info('Store Request Data:', $validated);
             try{
-
+                     \Log::info('Passing data to PaymentService', $validated);
             $result = $this->paymentservice->createMemberPayment($validated);
 
              return response()->json([
