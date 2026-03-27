@@ -43,8 +43,12 @@
                             <i class="fa-solid fa-circle-user text-2xl lg:text-4xl text-gray-200"></i>
                             <a href="{{route('users.index')}}" class="text-2xl lg:text-4xl hover:text-gray-400" >Users</a>
                         </div>
+                        
+                         <div class="flex space-x-2">
+                            <i class="fa-solid fa-gear text-2xl lg:text-4xl text-gray-200"></i>
+                            <a href="{{route('audit')}}" class="text-2xl lg:text-4xl hover:text-gray-400" >Audit Logs</a>
+                        </div>
                         @endif
-                   
                     </ul>
                     <div class="mt-80 bg-red-700 hover:bg-red-400 p-2 lg:p-4 text-center">
                         <form action="{{route('logout')}}" Method="POST">

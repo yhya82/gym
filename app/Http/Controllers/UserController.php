@@ -39,7 +39,7 @@ class UserController extends Controller
 
         
         $user = User::create($request->all());
-        Auth::login($user);
+        
         return redirect()->route('users.index')->with('success','User added');
     }
 

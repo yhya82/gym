@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuditLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,14 +20,18 @@ Route::middleware('auth')->group(function () {
     
     Route::resource(('members'),MemberController::class);
     Route::get('/members/{member}/renew',[MemberController::class, 'renew']); // for the renew form
-
+   
     
 });
 
 Route::middleware('auth', 'role:owner')->group( function () {
 Route::resource(('plans'), PlanController::class);
+ Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+ Route::get('/audit',[AuditLogController::class, 'index'])->name('audit');
     Route::resource(('users'), UserController::class);
-    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+    
+   
+    
 });
 
 require __DIR__.'/auth.php';
