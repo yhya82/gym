@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    
+    // named the routes caused it get gets mixed up with the api controller 
     Route::resource(('members'),MemberController::class)->names([
     'index' => 'members.web.index',
     'create' => 'members.web.create',

@@ -4,6 +4,7 @@ use App\Models\Member;
 use App\Models\Plan;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Events\MemberCreated;
 use App\Events\PaymentRecieved;
@@ -38,7 +39,7 @@ class PaymentService{
                 $payment = Payment::create([
                     'member_id' => $member->id,
                     'plan_id'=> $plan->id,
-                    'user_id'=> auth()->id(),
+                    'user_id'=> Auth::id(),
                     'amount'=>$validated['amount'],
                     'start_date'=>$startDate,
                     'expiry_date'=>$expiryDate,

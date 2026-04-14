@@ -33,8 +33,8 @@ class MemberApiController extends Controller
                    $q->where('plan_id', $request->plan_id);
 
                    })
-                   ->with('payment.plan','payment.user')
-                ->get();
+                   ->with('plan','payment.user')
+                    ->get();
                     
 
         return response()->json([
@@ -57,9 +57,9 @@ class MemberApiController extends Controller
                 'payment_method'=> 'required|string',
 
             ]);
-                \Log::info('Store Request Data:', $validated);
+                
             try{
-                     \Log::info('Passing data to PaymentService', $validated);
+                     
             $result = $this->paymentservice->createMemberPayment($validated);
 
              return response()->json([
@@ -69,7 +69,7 @@ class MemberApiController extends Controller
             ], 201);
 
             }catch(\Exception $e){
-                \Log::error('Payment service failed: ' . $e->getMessage());
+                
                 return response()->json([
                     'message'=>$e->getMessage()
                 ]);

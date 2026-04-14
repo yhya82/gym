@@ -29,8 +29,14 @@ class ExpiredMembersCommand extends Command
     {
         
         $members = Member::where('status','active')
-                            ->whereDate('end_date','<=',now())
+                            ->whereDate('expiry_date','<=',now())
                             ->get();
+
+                            if($members->isEmpty()){
+                                $this->warn('No members found');
+                                return;
+                            }
+                            
 
                             foreach($members as $member){
                                 $member->status = 'expired';
@@ -40,10 +46,10 @@ class ExpiredMembersCommand extends Command
 
                                     event(new MemberStatusChanged($member));
 
-                                \Log::info('Expired member:' . $member->name);
+                                Log::info('Expired member:' . $member->name);
                                 
                             }
     
-                            $this->info('Expired Member updated Succeffully.');
+                            $this->info('Expired Members Count :'. $members->count());
     }
 }

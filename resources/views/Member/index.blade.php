@@ -78,8 +78,8 @@
                             <td>${member.phone}</td>
                             <td>${member.gender}</td>
                             <td>${member.join_date}</td>
-                            <td>${member.payment && member.payment.plan? member.payment.plan.name : ''}</td>
-                             <td>${member.payment && member.payment.plan? member.payment.plan.price : ''}</td>
+                            <td>${member.plan ? member.plan.name : ''}</td>
+                            <td>${member.plan ? member.plan.price : ''}</td>
                             <td>${member.payment? member.payment.amount: '' }</td>
                             <td>${member.payment ? member.payment.payment_method: ''}</td>
                             <td>${member.payment ? member.payment.start_date: ''}</td>
