@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -113,6 +113,14 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+
+        'sqlite_old' => [
+    'driver' => 'sqlite',
+    'database' => database_path('database.sqlite'),
+    'prefix' => '',
+    'foreign_key_constraints' => true,
+],
+
 
     ],
 

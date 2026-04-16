@@ -27,10 +27,12 @@ class ExpiredMembersCommand extends Command
      */
     public function handle()
     {
-        
+        //the expiry date column belongs to the payment table so we use the relationship between member and payment to query the function;
         $members = Member::where('status','active')
-                            ->whereDate('expiry_date','<=',now())
-                            ->get();
+                        ->whereHas('payment',function($query){
+                            $query->whereDate('expiry_date','<=',now());
+                        })
+                        ->get();
 
                             if($members->isEmpty()){
                                 $this->warn('No members found');

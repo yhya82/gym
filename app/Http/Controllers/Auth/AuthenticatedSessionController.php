@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         }elseif($user->role == 'owner'){
             return redirect()->route('dashboard');
         }
-
+        return redirect()->route('members.index');
        
     }
 

@@ -71,6 +71,8 @@
                         members.forEach (member=> {
 
                         const tr = document.createElement('tr');
+                            
+                            tr.className = member.status === 'expired' ? 'text-red-700' : '';
 
                             tr.innerHTML =`
                             <td>${member.id}</td>
@@ -86,7 +88,7 @@
                             <td>${member.payment ? member.payment.expiry_date: ''}</td>
                             <td>${member.payment && member.payment.user ? member.payment.user.name : ''}</td>
 
-                            <td class="text-green-600 font-bold">${member.status}</td>
+                            <td class="${member.status ==='active'? 'text-green-600' : 'text-red-700'} font-bold">${member.status}</td>
                             <td>
                                 <a href="/members/${member.id}/edit" class="text-blue-600 hover:underline">Edit</a>
                                 <a href="/members/${member.id}/renew" class="text-blue-600 hover:underline">Renew</a>
