@@ -12,8 +12,9 @@
    @extends('layouts.app') 
    @section('content')
 
-     <div class="mt-12 bg-gray-100  rounded-xl px-2">
+     <div class="flex flex-col mt-12 bg-gray-100  rounded-xl px-2">
             <p class="text-4xl lg:text-6xl font-serif p-3 lg:p-5 ">Admin Dashboard</p>
+            <h2 id="now"></h2>
         </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8 lg:mt-10 px-2">
@@ -55,9 +56,9 @@
         <div class="flex flex-col lg:w-1/4 ">
             <p class="text-4xl lg:text-4xl font-serif mt-10 lg:mt-16">Quick Actions</p>
             <div class="flex flex-col gap-2 lg:gap-4 mt-4 lg:mt-16">
-                <button class="bg-blue-800 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-blue-500 rounded-xl text-white font-sembold "> <a href="">Add Member</a></button>
-                <button class="bg-yellow-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-yellow-500 rounded-xl text-white font-sembold "> <a href="">Renew Member</a></button>
-                <button class="bg-purple-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-purple-500 rounded-xl text-white font-sembold "> <a href="">Add Plan</a></button>
+                <button class="bg-blue-800 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-blue-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.create')}}">Add Member</a></button>
+                <button class="bg-yellow-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-yellow-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.index')}}">View Members</a></button>
+                <button class="bg-purple-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-purple-500 rounded-xl text-white font-sembold "> <a href="{{route('plans.create')}}">Add Plan</a></button>
             </div>
         </div>
 
@@ -94,11 +95,12 @@
         .then(res => res.json())
         .then(data => {
 
-            document.getElementById('total_revenue').innerText = data.total_revenue;
-            document.getElementById('monthly_revenue').innerText = data.monthly_revenue;
+            document.getElementById('total_revenue').innerText ='D' + data.total_revenue;
+            document.getElementById('monthly_revenue').innerText ='D' + data.monthly_revenue;
             document.getElementById('total_members').innerText = data.total_members;
             document.getElementById('active_members').innerText = data.active_members;
             document.getElementById('expired_members').innerText = data.expired_members;
+            document.getElementById('now').innerText = data.now;
 
              // Update chart
             revenueChart.data.datasets[0].data = [data.total_revenue, data.monthly_revenue];

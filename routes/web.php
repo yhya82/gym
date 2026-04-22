@@ -33,9 +33,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth', 'role:owner')->group( function () {
-Route::resource(('plans'), PlanController::class);
- Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
- Route::get('/audit',[AuditLogController::class, 'index'])->name('audit');
+    Route::resource(('plans'), PlanController::class);
+    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/audit',[AuditLogController::class, 'index'])->name('audit');
     Route::resource(('users'), UserController::class);
     
    
