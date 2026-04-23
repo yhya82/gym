@@ -13,30 +13,30 @@
    @section('content')
 
      <div class="flex flex-col mt-12 bg-gray-100  rounded-xl px-2">
-            <p class="text-4xl lg:text-6xl font-serif p-3 lg:p-5 ">Admin Dashboard</p>
-            <h2 id="now"></h2>
+            <p class="text-4xl lg:text-6xl font-serif p-3 lg:p-5 ">Welcome <span>{{auth()->user()->name}},</span></p>
+            <h2 id="now" class="text-xl lg:text-2xl p-2 lg:p-4"></h2>
         </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8 lg:mt-10 px-2">
        
         <div class="flex flex-col items-center p-2 lg:p-4 bg-blue-600 rounded-xl">
-            <p class="text-3xl lg:text-4xl text-white font-bold">Total Revenue</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl text-white font-bold">Total Revenue</p>
             <p id="total_revenue" class="text-2xl lg:text-3xl text-white mt-2 lg:mt-4"></p>
         </div>
         <div class='flex flex-col items-center p-2 lg:p-4 bg-gray-100 rounded-xl'>
-            <p class="text-3xl lg:text-4xl font-bold">Monthly Revenue</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl font-bold">Monthly Revenue</p>
             <p id ='monthly_revenue' class="text-2xl lg:text-3xl mt-2 lg:mt-4"></p>
         </div>
         <div class='flex flex-col items-center p-2 lg:p-4 bg-gray-100 rounded-xl' >
-            <p class="text-3xl lg:text-4xl font-bold">Total Members</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl font-bold">Total Members</p>
             <p id='total_members' class="text-2xl lg:text-3xl mt-2 lg:mt-4"></p>
         </div>
         <div class='flex flex-col items-center p-2 lg:p-4 bg-gray-100 rounded-xl'>
-            <p class="text-3xl lg:text-4xl text-green-700 font-thin">Active Members</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl text-green-700 font-thin">Active Members</p>
             <p id="active_members" class="text-2xl lg:text-3xl  mt-2 lg:mt-4"></p>
         </div>
         <div class='flex flex-col items-center p-2 lg:p-4 bg-gray-100 rounded-xl'>
-            <p class="text-3xl lg:text-4xl text-red-700 font-thin">Expired Members</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl text-red-700 font-thin">Expired Members</p>
             <p id="expired_members"  class="text-2xl lg:text-3xl  mt-2 lg:mt-4"></p>
         </div>
     </div>
@@ -56,9 +56,9 @@
         <div class="flex flex-col lg:w-1/4 ">
             <p class="text-4xl lg:text-4xl font-serif mt-10 lg:mt-16">Quick Actions</p>
             <div class="flex flex-col gap-2 lg:gap-4 mt-4 lg:mt-16">
-                <button class="bg-blue-800 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-blue-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.create')}}">Add Member</a></button>
-                <button class="bg-yellow-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-yellow-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.index')}}">View Members</a></button>
-                <button class="bg-purple-600 p-2 lg:p-4 text-3xl lg:text-4xl hover:bg-purple-500 rounded-xl text-white font-sembold "> <a href="{{route('plans.create')}}">Add Plan</a></button>
+                <button class="bg-blue-800 p-2 lg:p-4 text-2xl md:text-3xl lg:text-4xl hover:bg-blue-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.create')}}">Add Member</a></button>
+                <button class="bg-yellow-600 p-2 lg:p-4 text-2xl md:text-3xl lg:text-4xl hover:bg-yellow-500 rounded-xl text-white font-sembold "> <a href="{{route('members.web.index')}}">View Members</a></button>
+                <button class="bg-purple-600 p-2 lg:p-4 text-2xl md:text-3xl lg:text-4xl hover:bg-purple-500 rounded-xl text-white font-sembold "> <a href="{{route('plans.create')}}">Add Plan</a></button>
             </div>
         </div>
 
@@ -76,10 +76,10 @@
         const revenueChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Total Revenue', 'Monthly Revenue'],
+            labels: [], //start empty then load after the api fetch
             datasets: [{
                 label: 'Revenue',
-                data: [0, 0], // initial values
+                data: [], // start empty then load after the api fetch
                 backgroundColor: ['#3b82f6','#10b981'] // blue & green
             }]
         },
@@ -90,7 +90,7 @@
         }
     });
         //function to loaddashboard
-        function loadDashboard(){
+        function loadDashboard(){   
         fetch(`/api/dashboard`)
         .then(res => res.json())
         .then(data => {
@@ -103,7 +103,8 @@
             document.getElementById('now').innerText = data.now;
 
              // Update chart
-            revenueChart.data.datasets[0].data = [data.total_revenue, data.monthly_revenue];
+             revenueChart.data.labels = data.labels;
+            revenueChart.data.datasets[0].data = data.data;
             revenueChart.update();
 
         })

@@ -62,7 +62,7 @@
                 
             
             <!--main content -->
-            <main class="flex-1 overflow-y-auto px-4 lg:px-16 ">
+            <main class="flex-1 overflow-y-scroll px-4 lg:px-16 ">
                 @yield('content')
 
                 @yield('scripts')

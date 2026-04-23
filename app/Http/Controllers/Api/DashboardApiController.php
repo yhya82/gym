@@ -6,11 +6,13 @@ use App\Models\Member;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DashboardApiController extends Controller
 {
     public function index(){
+            $username = Auth::user()->name;
             $totalrevenue = Payment::sum('amount');
             $totalmonthly =Payment::whereBetween('created_at', [
                         Carbon::now()->startOfMonth(),
@@ -19,9 +21,9 @@ class DashboardApiController extends Controller
             $totalmembers = Member::count();
             $activemembers = Member::where('status','active')->count();
             $expiredmembers = Member::where('status','expired')->count();
-            $now = now()->format('l, d M Y - H:i');
+            $now = now()->format('l, d M Y ');
             $revenue = DB::table('payments')
-                            ->selectRaw('MONTH(created_at) as month, SUM (amount) as total')
+                            ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
                             ->groupBy('month')
                             ->pluck('total','month');
 
